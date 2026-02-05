@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="sucias.css">
+    <title>Reporte De Unidades
+    </title>
+</head>
+<body>
+    <h1>Reporte De Unidades Sucias En El Área</h1>
+    <div class="contenedor">
+    <input type="tel" placeholder="Área Sucia" id="hormiga" required>
+    <input type="tel" placeholder="Plataforma" id="rabon">
+    <input type="tel" placeholder="Plataforma Vieja" id="torton">
+    </div>
+    
+    <div class="botones">
+        <button onclick="procesar()">Procesar</button>
+    <button onclick="copiar()">Copiar</button>
+    </div>
+
+    <h2 id="resul">Resultado:</h2>
+    <p id="resultado"></p>
+</body>
+
+<script>
+    function formatear(unidades, prefijo, threshold = 100){
+        const lista = unidades.split(',').filter(num => num.trim() !== '');
+        const unidadesF = lista.map(num => {
+            const numero = parseInt(num.trim(), 10);
+            if (numero < threshold){
+                return `${prefijo}0${numero}`;
+            } else{
+                return `${prefijo}${numero}`;
+            }
+        });
+        return unidadesF;
+
+    }
+
+
+    function procesar(opcion){
+        const hormigas = document.getElementById('hormiga').value;
+        const rabones = document.getElementById('rabon').value;
+        const tortons = document.getElementById('torton').value;
+        const texto = document.getElementById('resultado');
+
+        const hormigaF = formatear(hormigas, 'V-0', 10);
+        const rabonF = formatear(rabones, 'V-0', 10);
+        const tortonF = formatear(tortons, 'V-0', 10);
+        
+
+        let resultado = `<br><br>*Área Sucia:*<br>`;
+            resultado += hormigaF.join('<br>')+ `<br><br>*Plataforma:*<br>`;
+            resultado += rabonF.join('<br>')+ `<br><br>*Plataforma Vieja:*<br>`;
+            resultado += tortonF.join('<br>');
+
+        document.getElementById('resultado').innerHTML = resultado;
+
+    }
+
+    function copiar(){
+        const resultado = document.getElementById('resultado').innerText;
+        const textarea = document.createElement('textarea');
+        textarea.value =  resultado;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        alert('Texto copiado👍');
+    }
+
+    document.addEventListener('DOMContentLoaded', (event) =>{
+        document.addEventListener('keydown', (event)=> {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                procesar('*UNIDADES SUCIAS*');
+            }
+        })
+    })
+
+</script>
+</html>

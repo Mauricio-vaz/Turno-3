@@ -1,0 +1,122 @@
+body{
+    background: #a22f55;
+}
+
+input[type="checkbox"]{
+    appearance: none;
+    width: 35px;
+    height: 22px;
+    background: #ccc;
+    border-radius: 20px;
+    position: relative;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+input[type="checkbox"]::before {
+    content: "";
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    background: white;
+    border-radius: 50%;
+    top: 2px;
+    left: 2px;
+    transition: 0.3s;
+}
+
+input[type="checkbox"]:checked {
+    background: #3bb355;
+}
+
+input[type="checkbox"]:checked::before {
+    transform: translateX(13px);
+}
+
+.contenedor1{
+    width: 100%;
+    margin: 20px;
+    padding: 10px;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 8px;
+    background: #b16b82;
+}
+#nombre1, #nombre2{
+    width: 220px;
+    margin: 10px;
+    height: 20px;
+    background: #a38787;
+    text-align: center;
+    border-radius: 8px;
+    border: none;
+}
+
+
+.fila{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.fila input[type="tel"] {
+    flex: 1;
+    
+}
+
+#plana1, #plana2{
+    margin: 10px 0 10px;
+    height: 20px;
+    width: 10%;
+    background: #a38787;
+    text-align: center;
+    border-radius: 8px;
+    border: none;
+}
+#plana3{
+    margin-right: 5px;
+    height: 20px;
+    width: 10%;
+    background: #a38787;
+    text-align: center;
+    border-radius: 8px;
+    border: none;
+}
+
+.contenedor2{
+    width: 100%;
+    margin: 20px;
+    padding: 10px;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 8px;
+    background: #b16b82;
+}
+
+#unidad1, #unidad2{
+    margin: 10px;
+    height: 20px;
+    width: 30%;
+    background: #a38787;
+    text-align: center;
+    border-radius: 8px;
+    border: none;
+}
+button{
+    margin: 10px;
+    padding: 5px 15px;
+    border-radius: 8px;
+    border: none;
+    background: #592355;
+    color: white;
+    cursor: pointer;
+}
+#resultado{
+    margin: 20px;
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+

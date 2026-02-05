@@ -1,0 +1,46 @@
+        body {
+            font-family: 'Tahoma';
+            padding: 20px;
+            background: #0b606b;
+            text-align: center;
+        }
+        input {
+            margin: 0 auto;
+            display: block;
+            background: rgba(255, 255, 255,0.3);
+            border-radius: 10px;
+            border: none;
+        }
+        button {
+            margin: 15px;
+            background-color: cadetblue;
+            font-family: 'Franklin Gothic Regular';
+            border: transparent;
+            font-size: medium;
+            padding: 10px 20px;
+        }
+        .unidad-folio {
+            margin: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            text-align: center;
+        }
+
+        .unidad-folio input{
+            text-align: center;
+            background: rgba(255, 255, 255, 0.3);
+            line-height: 30px;
+            border-radius: 10px;
+            border: none;
+        }
+        button{
+            margin: 15px;
+            background: rgb(22, 132, 175);
+            line-height: 10px;
+            border-radius: 10px;
+            border: none;
+            width: auto;
+            height: 30px;
+        }

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="noche.css">
+    <title>Reporte Procesado</title>
+    
+</head>
+<body>
+    <h1>Registro De Unidades Para Procesado</h1>
+
+    <div class="unidad-folio">
+        <label for="unidadpro">No. de Unidad:</label>
+        <input type="tel" id="unidadpro" inputmode="numeric" pattern="[0-9]*" required>
+
+        <label for="foliopro">Folio:</label>
+        <input type="tel" id="foliopro" inputmode="numeric" pattern="[0-9]*" required>
+
+        <label for="notapro" style="display: none;"></label>
+        <input type="text" id="notapro" style="display: none;" required>
+    </div>
+
+    <button onclick="agregarViaje()">Agregar Folio</button>
+    <button onclick="copiar()">Copiar</button>
+
+    <h2>Resultado</h2>
+    <p id="resultado"></p>
+    
+    <script>
+        let unidadesFolios = [];
+let unidadesCanceladas = [];
+let unidadesPendientes = [];
+
+function obtenerFechaActual() {
+    const hoy = new Date();
+    const dia = String(hoy.getDate()).padStart(2, '0');
+    const mes = String(hoy.getMonth() + 1).padStart(2, '0');
+    const año = hoy.getFullYear().toString().slice(-4);
+    const diaAnterior = String(hoy.getDate() - 1).padStart(2, '0');
+    return `${diaAnterior}/${mes}/${año}`;
+}
+
+let folioActual = null;
+
+function agregarViaje() {
+    const unidadpro = document.getElementById('unidadpro').value.trim();
+    const foliopro = document.getElementById('foliopro').value.trim();
+
+    if (unidadpro !== "" && (folioActual !== null || foliopro !== "")) {
+        let tracto = "";
+
+        if (folioActual === null) {
+            folioActual = parseInt(foliopro);
+        }
+
+        if (unidadpro.startsWith("0")) {
+            tracto = prompt("Ingrese el número del tracto:").trim();
+        }
+
+        unidadesFolios.push({ unidadpro, foliopro: folioActual.toString(), tracto });
+        folioActual++;
+
+        document.getElementById('unidadpro').value = "";
+        document.getElementById('foliopro').value = "";
+        document.getElementById('unidadpro').focus();
+
+        if (confirm("¿Desea agregar otro viaje?")) {
+            agregarViaje();
+        } else {
+            folioActual = null;
+            preguntarPendientes();
+        }
+    }
+}
+
+function preguntarPendientes() {
+    if (confirm("¿Hay unidades pendientes por liberar?")) {
+        let unidadesPendientesInput = prompt("Ingrese las unidades pendientes, separadas por un espacio", "");
+        if (unidadesPendientesInput) {
+            unidadesPendientes = unidadesPendientesInput.split(" ").map(item => item.trim());
+        }
+    }
+    preguntarCancelados();
+}
+
+function preguntarCancelados() {
+    if (confirm("¿Hay unidades o folios cancelados?")) {
+        let unidadesCanceladasInput = prompt("Ingrese las unidades", "");
+        if (unidadesCanceladasInput) {
+            unidadesCanceladas = unidadesCanceladasInput.split(" ").map(item => item.trim());
+        }
+    }
+    mostrarResultado();
+}
+
+function mostrarResultado() {
+    if (unidadesFolios.length === 0) {
+        document.getElementById('resultado').innerHTML = "No se han agregado unidades y folios.";
+        return;
+    }
+
+    const numeroviaje = unidadesFolios.length - unidadesCanceladas.length;
+    const fechaActual = obtenerFechaActual();
+
+    let resultado = `*REJAS*<br>*🗓${fechaActual}*<br><br>`;
+    resultado += `*UNIDADES LIBERADAS DE POLLO VIVO PARA PROCESADO🐓*<br><br>`;
+
+    unidadesFolios.forEach(item => {
+        if (!unidadesCanceladas.includes(item.unidadpro)) {
+            resultado += item.unidadpro.startsWith("0") ? `*• VP-${item.unidadpro.padStart(3, '0')}*
+            Tracto: *${item.tracto.toUpperCase()}* Folio: *${item.foliopro}*<br>` : `*• V-0${item.unidadpro}* 
+            Folio: *${item.foliopro}*<br>`;
+            //<input type="checkbox" class="resultado-checkbox" data-unidad="${item.unidadpro}" data-folio="${item.foliopro}"><br>`;
+        }
+    });
+
+    resultado += `<br>*✅¡${numeroviaje} VIAJES EN TOTAL DE POLLO VIVO PARA PROCESADO!*<br><br>`;
+
+    if (unidadesPendientes.length > 0) {
+        resultado += `<br>⏳ *UNIDADES PENDIENTES POR LIBERAR:*<br>`;
+        unidadesPendientes.forEach(pendiente => {
+            if (pendiente.startsWith('0')) {
+                resultado += `VP-${pendiente.padStart(3, '0')}<br>`;
+            } else {
+                resultado += `V-0${pendiente}<br>` 
+            }
+        });
+    }
+
+    if (unidadesCanceladas.length > 0) {
+        resultado += `<br>❌ *FOLIOS CANCELADOS:*<br>`;
+        unidadesCanceladas.forEach(cancelado => {
+            const index = unidadesFolios.findIndex(item => item.unidadpro == cancelado);
+            if (index !== -1){
+                resultado += `V-0${cancelado} Folio: ${unidadesFolios[index].foliopro}<br>`;
+            }
+            else{
+            resultado += `V-0${cancelado} Folio: No Encontrado<br>`;
+        }
+        });
+    }
+
+    document.getElementById('resultado').innerHTML = resultado;
+}
+
+function copiar() {
+    const resultado = document.getElementById('resultado').innerText;
+    const textarea = document.createElement('textarea');
+    textarea.value = resultado;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+    alert('Copiado al portapapeles');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            agregarViaje();
+        }
+    });
+});
+</script>
+</body>
+</html>

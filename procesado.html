@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="procesado.css">
+    <title>procesado 2.1</title>
+</head>
+<body>
+    <div class="contenedor1">
+        <label for="">Nombre:</label>
+        <input type="text" id="nombre1" list="nombres" placeholder="Ingrese un nombre">
+        <datalist id="nombres">
+            <option value="Francisco"></option>
+            <option value="Ivis"></option>
+            <option value="Fabian"></option>
+            <option value="Gerardo"></option>
+            <option value="Alexis"></option>
+            <option value="Usiel"></option>
+            <option value="Mauricio"></option>
+            <option value="Joel"></option>
+            <option value="Antonio"></option>
+            <option value="Manuel"></option>
+            <option value="Adriel"></option>
+            <option value="Adier"></option>
+        </datalist>
+        <div class="fila">
+        <input type="tel" id="plana1" placeholder="Plana">
+        <input type="checkbox" id="limpia1">
+        </div>
+        <div class="fila">
+        <input type="tel" id="plana2" placeholder="Plana">
+        <input type="checkbox" id="limpia2">
+        </div>
+        <div class="fila" id="double">
+        <input type="tel" id="plana3" placeholder="Plana">
+        <input type="checkbox" id="limpia3">
+        <input type="checkbox" id="doblete">
+        </div>
+        <button onclick="GuardarUnidades()">Guardar</button>
+    </div>
+
+    <div class="contenedor2">
+        <label>Nombre:</label>
+        <input type="text" id="nombre2" list="nombres2" placeholder="Ingrese un nombre">
+        <datalist id="nombres2">
+            <option value="Luis"></option>
+            <option value="Felix"></option>
+            <option value="Manuel"></option>
+            <option value="Elias"></option>
+            <option value="Alex"></option>
+            <option value="Domingo"></option>
+            <option value="Ivan"></option>
+            <option value="Rudi"></option>
+        </datalist>
+        <div class="fila">
+        <input type="tel" id="unidad1" placeholder="Unidad">
+        <input type="checkbox" id="Ulimpia1">
+        </div>
+        <div class="fila">
+        <input type="tel" id="unidad2" placeholder="Unidad">
+        <input type="checkbox" id="Ulimpia2">
+        <input type="checkbox" id="Udoblete">
+        </div>
+        <div class="fila">
+        <button onclick="GuardarUnidades2()">Guardar</button>  
+        <button onclick="Copiar()">Copiar</button>
+        </div>
+    </div>
+    <p id="resultado"></p>
+
+    <script>
+
+        function obtenerFecha(){
+            const hoy = new Date();
+            const dia = String(hoy.getDate()).padStart(2, '0');
+            const mes = String(hoy.getMonth() +1).padStart(2, '0');
+            const año = hoy.getFullYear().toString().slice(-4);
+            return `${dia}/${mes}/${año}`;
+        }
+        
+        resultado.innerText = `*PROGRAMACIÓN PARA VIAJE DE PROCESADO:*\n${obtenerFecha()}`;
+
+        function GuardarUnidades(){
+            const nombre1 = document.getElementById("nombre1").value;
+            const plana1 = document.getElementById("plana1").value;
+            const plana2 = document.getElementById("plana2").value.trim();
+            const plana3 = document.getElementById("plana3").value.trim();
+            const limpia1 = document.getElementById("limpia1").checked ? "✅" : "❌"; 
+            const check2 = document.getElementById("limpia2").checked;
+            const check3 = document.getElementById("limpia3").checked ? "" : "❌";
+            const doblete = document.getElementById("doblete").checked ? "🔄" : " ";
+            
+            const contenedor1 = document.getElementById("resultado");
+            const p = document.createElement("p");
+
+            let limpia2 = "";
+            if(plana2 !== ""){
+                limpia2 = check2 ? "✅" : "❌";
+            }
+
+            let limpia3 = "";
+            if(plana3 !== ""){
+                limpia3 = check3 ? "❌" : "✅";
+            }
+
+            let doble = "";
+            if(document.getElementById("doblete").checked){
+                limpia3 = check3 ? "" : "";
+            }
+            
+
+            p.classList.add("parrafo");
+            let textoFinal = `${nombre1}`;
+            if (plana1) {
+                textoFinal += ` VP-${plana1}${limpia1}`;
+            }
+
+            if (plana2) {
+                textoFinal += ` VP-${plana2}${limpia2}`;
+            }
+
+            if (plana3) {
+                textoFinal += ` VP-${plana3}${limpia3}`;
+            }
+            textoFinal += `${doblete}`;
+            textoFinal = textoPequeno(textoFinal);//El resultado lo convienerte en texto pequeño
+            p.innerHTML = textoFinal;
+
+            contenedor1.appendChild(p);
+
+            //limpiar inputs del aparatado de las planas
+            document.getElementById("nombre1").value = "";
+            document.getElementById("plana1").value= "";
+            document.getElementById("plana2").value= "";
+            document.getElementById("plana3").value= "";
+            document.getElementById("limpia1").checked = false;
+            document.getElementById("limpia2").checked = false;
+            document.getElementById("limpia3").checked = false;
+            document.getElementById("doblete").checked = false;
+        }
+        
+            function GuardarUnidades2(){
+                const nombre2 = document.getElementById("nombre2").value;
+                const unidad1 = document.getElementById("unidad1").value;
+                const unidad2 = document.getElementById("unidad2").value;
+                const Ulimpia1 = document.getElementById("Ulimpia1").checked ? "✅" : "❌";
+                const Ucheck = document.getElementById("Ulimpia2").checked;
+                const Udoblete = document.getElementById("Udoblete").checked ? "🔄" : "";    
+
+                const contenedor2 = document.getElementById("resultado");
+                const p = document.createElement("p");
+
+                //Mientras el inpút text no haya nada escrito, el checkbox no arrojara nada
+                let Ulimpia2 = "";
+                if(unidad2 !== ""){
+                    Ulimpia2 = Ucheck ? "✅" : "❌";
+                }
+
+                let Udoble = "";
+                if(document.getElementById("Udoblete").checked){
+                    Ulimpia2 = Ucheck ? "" : "";
+                }
+
+                p.classList.add("parrafo");
+
+
+                let textoFinal2 = `${nombre2}`;
+                if (unidad1){
+                    textoFinal2 += ` V-${unidad1}${Ulimpia1}`;
+                }
+
+                if (unidad2){
+                    textoFinal2 += ` V-${unidad2}${Ulimpia2}`;
+                }
+                textoFinal2 += `${Udoblete}`;
+                textoFinal2 = textoPequeno(textoFinal2);//El resultado lo convienerte en texto pequeño
+                p.innerHTML = textoFinal2;
+                contenedor2.appendChild(p);
+
+                //limpiar inputs del apartado de las unidades
+                document.getElementById("nombre2").value = "";
+                document.getElementById("unidad1").value ="";
+                document.getElementById("unidad2").value ="";
+                document.getElementById("Ulimpia1").checked = false;
+                document.getElementById("Ulimpia2").checked = false;
+                document.getElementById("Udoblete").checked = false;
+            }
+
+            function Copiar(){
+                const resultado = document.getElementById("resultado").innerText;
+                const textarea = document.createElement("textarea");
+                textarea.value = resultado;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand("copy");
+                document.body.removeChild(textarea);
+                alert('Copiado');
+            }
+
+        function textoPequeno(texto) {
+            const mapa = {
+            a:"ᴀ", b:"ʙ", c:"ᴄ", d:"ᴅ", e:"ᴇ", f:"ғ",
+            g:"ɢ", h:"ʜ", i:"ɪ", j:"ᴊ", k:"ᴋ", l:"ʟ",
+            m:"ᴍ", n:"ɴ", o:"ᴏ", p:"ᴘ", q:"ǫ", r:"ʀ",
+            s:"s", t:"ᴛ", u:"ᴜ", v:"ᴠ", w:"ᴡ", x:"x",
+            y:"ʏ", z:"ᴢ"
+        };
+        return texto
+    .toLowerCase()
+    .split("")
+    .map(l => mapa[l] || l)
+    .join("");
+}
+
+    </script>
+</body>
+</html>
