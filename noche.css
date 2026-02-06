@@ -1,7 +1,7 @@
         body {
             font-family: 'Tahoma';
             padding: 20px;
-            background: #0b606b;
+            background: #a22f55;
             text-align: center;
         }
         input {
@@ -43,4 +43,5 @@
             border: none;
             width: auto;
             height: 30px;
+
         }
