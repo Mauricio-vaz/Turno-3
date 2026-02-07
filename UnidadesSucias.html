@@ -49,12 +49,14 @@
         const hormigaF = formatear(hormigas, 'V-0', 10);
         const rabonF = formatear(rabones, 'V-0', 10);
         const tortonF = formatear(tortons, 'V-0', 10);
+        const numerosucias = hormigaF.length + rabonF.length + tortonF.length;
         
 
         let resultado = `<br><br>*Área Sucia:*<br>`;
             resultado += hormigaF.join('<br>')+ `<br><br>*Plataforma:*<br>`;
             resultado += rabonF.join('<br>')+ `<br><br>*Plataforma Vieja:*<br>`;
             resultado += tortonF.join('<br>');
+            resultado += `<br>*Total De Unidades Sucias: ${numerosucias}*`;
 
         document.getElementById('resultado').innerHTML = resultado;
 
@@ -81,4 +83,5 @@
     })
 
 </script>
+
 </html>
